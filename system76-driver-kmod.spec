@@ -26,7 +26,7 @@ Kernel module for controlling the hotkeys and fans on some System76 laptops.
 
 for kernel_version  in %{?kernel_versions} ; do
   mkdir -p _kmod_build_${kernel_version%%___*}
-  cp -a system76-dkms-master/*.c system76-dkms-master/Makefile _kmod_build_${kernel_version%%___*}
+  cp -a system76-dkms-master/src system76-dkms-master/Kbuild system76-dkms-master/Makefile _kmod_build_${kernel_version%%___*}
 done
 
 %build
@@ -37,7 +37,7 @@ done
 %install
 for kernel_version in %{?kernel_versions}; do
  mkdir -p %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
- install -D -m 755 _kmod_build_${kernel_version%%___*}/system76.ko %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
+ install -D -m 755 _kmod_build_${kernel_version%%___*}/src/system76.ko %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
  chmod a+x %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/system76.ko
 done
 %{?akmod_install}
